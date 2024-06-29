@@ -6,11 +6,49 @@
   <meta name="viewport" content="width=device-width">
   <title>replit</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 </head>
 
 <body>
-  Hello world
+  
   <script src="script.js"></script>
+  
+
+  <a-scene>
+
+    <!-- Camera -->
+    <a-entity position="0 1.6 0">
+      <a-camera></a-camera>
+    </a-entity>
+
+    <!-- Sky (space background) -->
+    <a-sky src="space-texture.jpg" radius="1000"></a-sky>
+
+    <!-- Player's spaceship model -->
+    <a-entity id="player" position="0 1.6 -5" rotation="0 180 0" scale="0.1 0.1 0.1" gltf-model="(https://3d website.username.repl.co//Intergalactic_Spaceships.glb)"></a-entity>
+
+    
+    
+
+
+    <a-box color="yellow"></a-box>
+    
+  </a-scene>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </body>
 
 </html>
+

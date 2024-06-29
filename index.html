@@ -1,62 +1,33 @@
+
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obstacle Navigation Game</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden; /* Hide scrollbar */
+    }
+  </style>
 </head>
-
 <body>
-  
-  <script src="script.js"></script>
-  
+  <a-scene keyboard-shortcuts="enterVR: false">
+    <!-- Light source -->
+    <a-light type="ambient" color="#ffffff" intensity="0.2"></a-light>
+    <a-light type="directional" color="#ffffff" intensity="0.5" position="2 4 3"></a-light>
 
-  <a-scene>
+    <!-- Starry space background -->
+    <a-sky color="#000" material="shader: flat"></a-sky>
 
-    <!-- Camera -->
-    <a-entity position="0 1.6 0">
-      <a-camera></a-camera>
-    </a-entity>
+    <!-- Player's spacecraft -->
+    <a-entity id="player" position="0 0.5 -10" geometry="primitive: box; width: 1; height: 1; depth: 1" material="color: #FF69B4" 
+              wasd-controls look-controls></a-entity>
 
-    <!-- Sky (space background) -->
-    
-    <a-entity>
-      <!-- Body of the spacecraft -->
-      <a-entity geometry="primitive: box; width: 3; height: 1; depth: 1" material="color: #FF69B4"></a-entity>
-
-      <!-- Wings -->
-      <a-entity geometry="primitive: box; width: 0.5; height: 0.2; depth: 2" position="1.5 0.5 0" material="color: #DA70D6"></a-entity>
-      <a-entity geometry="primitive: box; width: 0.5; height: 0.2; depth: 2" position="-1.5 0.5 0" material="color: #DA70D6"></a-entity>
-
-      <!-- Cockpit -->
-      <a-entity geometry="primitive: sphere; radius: 0.3" position="0 0.5 1" material="color: #FFC0CB"></a-entity>
-    </a-entity>
-
-
-
-
-
-    
-    
+    <!-- JavaScript for game logic -->
+    <script src="Game.js"></script>
   </a-scene>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 </body>
-
 </html>
-

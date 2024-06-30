@@ -1,33 +1,33 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Obstacle Navigation Game</title>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden; /* Hide scrollbar */
-    }
-  </style>
-</head>
-<body>
-  <a-scene keyboard-shortcuts="enterVR: false">
-    <!-- Light source -->
-    <a-light type="ambient" color="#ffffff" intensity="0.2"></a-light>
-    <a-light type="directional" color="#ffffff" intensity="0.5" position="2 4 3"></a-light>
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>A-Frame Game</title>
+          <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+          <script src="game.js"></script>
+          <style>
+            body {
+              margin: 0;
+              overflow: hidden;
+            }
+            #score {
+                font-size: 50px; /* Increase font size */
+                width: 70px; /* Adjust width as needed */
+                height: 70px; /* Adjust height as needed */
+            }
+          </style>
+        </head>
+        <body>
+          <a-scene background="color: black">
+            <a-camera id="player" position="0 -0.3 0"> 
+            <!-- Dark pink player ball -->
+            <a-entity id="player" geometry="primitive: sphere; radius: 0.5" material="color: #C71585" position="0 1 -5" wasd-control look-control></a-entity>
 
-    <!-- Starry space background -->
-    <a-sky color="#000" material="shader: flat"></a-sky>
-
-    <!-- Player's spacecraft -->
-    <a-entity id="player" position="0 0.5 -10" geometry="primitive: box; width: 1; height: 1; depth: 1" material="color: #FF69B4" 
-              wasd-controls look-controls></a-entity>
-
-    <!-- JavaScript for game logic -->
-    <script src="Game.js"></script>
-  </a-scene>
-</body>
-</html>
+            <!-- Moving obstacle -->
+            <a-box id="obstacle" width="1" height="1" depth="1" ></a-box>
+              <!-- Score display -->
+              <a-entity id="score" position="-5 2 -5" text="value: Score: 0"; color: "yellow" scale="3 3 1"></a-entity>
+          </a-scene>
+        </body>
+      </html>

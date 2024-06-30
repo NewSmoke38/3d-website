@@ -16,6 +16,27 @@
                 width: 70px; /* Adjust width as needed */
                 height: 70px; /* Adjust height as needed */
             }
+
+            .custom-tooltip {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: black;
+                color: white;
+                border: 2px solid white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                display: none; /* Hidden by default */
+                z-index: 1000; /* Ensure it's on top of other elements */
+                font-size: 24px; /* Increase font size */
+            }
+            .custom-tooltip.show {
+                display: block; /* Show when active */
+            }
+
+            
           </style>
         </head>
         <body>
@@ -24,10 +45,160 @@
             <!-- Dark pink player ball -->
             <a-entity id="player" geometry="primitive: sphere; radius: 0.5" material="color: #C71585" position="0 1 -5" wasd-control look-control></a-entity>
 
+              
+
             <!-- Moving obstacle -->
             <a-box id="obstacle" width="1" height="1" depth="1" ></a-box>
               <!-- Score display -->
               <a-entity id="score" position="-5 2 -5" text="value: Score: 0"; color: "yellow" scale="3 3 1"></a-entity>
           </a-scene>
+          <!-- Button to display after reaching 100 cubes -->
+          <div id="randomFactGeneratorContainer">
+              <button id="randomFactGenerator" onclick="showRandomFact()">Random fact</button>
+          </div>
+
+
+          <!-- Custom tooltip for displaying random facts -->
+          <div id="customTooltip" class="custom-tooltip">
+              <p id="factText"></p>
+              <button onclick="hideCustomTooltip()">Close</button>
+          </div>
+
+          <script>
+              // Array of random facts
+              const randomFacts = [
+                  "The average person walks the equivalent of five times around the world in a lifetime.",
+                  "The average person spends six months of their life waiting for red lights to turn green.",
+                "Dolphins have names for each other.",
+                "Cows have best friends.",
+                "The world's largest grand piano was built by a 15-year-old.",
+                "Sloths can take up to a month to digest food.",
+                "An octopus has nine brains.",
+                "Honeybees can recognize human faces.",
+                "A day on Venus is longer than a year on Venus.",
+                "The wood frog can hold its pee for up to eight months.",
+                "Some cats are allergic to humans.",
+                "A bolt of lightning contains enough energy to toast 100,000 slices of bread.",
+                "Butterflies can taste with their feet.",
+                "A blue whale's heart is the size of a car.",
+                "Koalas sleep up to 22 hours a day.",
+                "The shortest war in history lasted 38 minutes.",
+                "A small child could swim through the veins of a blue whale.",
+                "Bananas glow blue under black lights.",
+                "Pigeons can do math at a level comparable to monkeys.",
+                "A snail can sleep for three years.",
+                "There are more stars in the universe than grains of sand on Earth.",
+                "The world's oldest piece of chewing gum is over 9,000 years old.",
+                "Elephants are the only animals that can't jump.",
+                "Your body contains about 100,000 miles of blood vessels.",
+                "The inventor of the frisbee was turned into a frisbee after he died.",
+                "Only two mammals like spicy food: humans and the tree shrew.",
+                "Polar bears have black skin under their white fur.",
+                "The heart of a shrimp is located in its head.",
+                "A small population of blue whales sings at a different pitch.",
+                "Turritopsis dohrnii, a jellyfish, is considered biologically immortal.",
+                "Humans and giraffes have the same number of neck vertebrae.",
+                "The majority of your brain is fat.",
+                "Hummingbirds are the only birds that can fly backwards.",
+                "There are more fake flamingos in the world than real ones.",
+                "Apples float on water because they are 25% air.",
+                "A rhinoceros's horn is made of hair.",
+                "The woodpecker's tongue wraps around its brain to protect it during pecking.",
+                "Banging your head against a wall burns 150 calories an hour.",
+                "The inventor of the Pringles can is now buried in one.",
+                "You can't hum while holding your nose.",
+                "Rats laugh when tickled.",
+                "The inventor of Vaseline ate a spoonful of it every day.",
+                "Strawberries are not berries, but avocados are.",
+                "Bees can make colored honey.",
+                
+                
+                "An adult human has two to nine pounds of bacteria in their body.",
+                "Starfish can regenerate lost arms.",
+                "The first computer mouse was made of wood.",
+                "The inventor of the telephone, Alexander Graham Bell, never called his wife or mother because they were deaf.",
+                "There are more chickens in the world than people.",
+                "The fingerprints of a koala are so indistinguishable from humans that they have on occasion been confused at a crime scene.",
+                "A crocodile cannot stick its tongue out.",
+                "It is physically impossible for pigs to look up into the sky.",
+              
+                "A shark is the only known fish that can blink with both eyes.",
+                "The longest recorded flight of a chicken is 13 seconds.",
+                "A cat has 32 muscles in each ear.",
+                "The electric chair was invented by a dentist.",
+                "Fleas can jump 350 times their body length.",
+                "A cockroach can live several weeks with its head cut off.",
+                "Hippos' sweat is pink.",
+                "The average person will spend six months of their life waiting for red lights to turn green.",
+                "A duck's quack doesn't echo.",
+                
+                "A blue whale can weigh as much as 30 elephants.",
+                "It would take a sloth one month to travel one mile.",
+                "If you lift a kangaroo's tail off the ground, it can't hop.",
+                "There are 293 ways to make change for a dollar.",
+                "A sneeze travels about 100 miles per hour.",
+                "The tongue is the only muscle in one’s body that is attached from one end.",
+                "The average person walks the equivalent of five times around the world in their lifetime.",
+                "The world's smallest fruit is a type of watermeal, or duckweed.",
+                "Some fish cough.",
+                "Frogs can't swallow with their eyes open.",
+                "A giraffe's tongue is so long that it can lick its own ears.",
+                
+                "A snail's mouth is no larger than the head of a pin, but it can have over 25,000 teeth.",
+                "Ants never sleep.",
+                "The human nose can remember 50,000 different scents.",
+                "Sharks are older than trees.",
+                "A cow gives nearly 200,000 glasses of milk in a lifetime.",
+                
+                "Otters have a favorite rock they use to crack open food.",
+                "A group of pandas is called an embarrassment.",
+                "Butterflies remember what they learned as caterpillars.",
+                "Crocodiles can gallop.",
+                "The most expensive pizza in the world costs $12,000.",
+                "Jellyfish evaporate in the sun.",
+                "Cows moo with regional accents.",
+                "Polar bear fur is actually transparent, not white.",
+                
+                  "Octopuses have three hearts.",
+                  "A group of flamingos is called a 'flamboyance'.",
+                  "The world's oldest piece of chewing gum is over 9,000 years old!",
+                  "The unicorn is the national animal of Scotland.",
+                  "Honey never spoils.",
+                  "Bananas are berries, but strawberries aren't."
+              ];
+
+              // Function to show a random fact
+              function showRandomFact() {
+                  // Get a random fact from the array
+                  const randomIndex = Math.floor(Math.random() * randomFacts.length);
+                  const fact = randomFacts[randomIndex];
+
+                  
+
+
+                    // Display the fact in the custom tooltip
+                    const customTooltip = document.getElementById('customTooltip');
+                    const factText = document.getElementById('factText');
+                    factText.textContent = fact;
+                    customTooltip.classList.add('show');
+                }
+
+                // Function to hide the custom tooltip
+                function hideCustomTooltip() {
+                    const customTooltip = document.getElementById('customTooltip');
+                    customTooltip.classList.remove('show');
+                }
+              
+          </script>
+
+          <style>
+              #randomFactGeneratorContainer {
+                  position: absolute;
+                  top: 20px;
+                  left: 20px;
+                  z-index: 1;  
+                  
+              }
+          </style>
         </body>
       </html>

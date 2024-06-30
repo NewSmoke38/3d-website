@@ -48,86 +48,16 @@ document.addEventListener('DOMContentLoaded', function () {
       player.object3D.position.z += playerSpeed; // Move backward
     }
   }
-// Wait for the A-Frame scene to load
-document.addEventListener('DOMContentLoaded', function() {
-    var scene = document.querySelector('a-scene');
-    var player = scene.querySelector('#player');
-    var scoreDisplay = scene.querySelector('#score');
-    var score = 0; // Initialize score variable
-    var totalCubes = 100; // Total number of cubes the player needs to cross
-    var cubesCrossed = 0; // Counter for cubes crossed by the player
 
-    // Display score function
-    function displayScore() {
-        if (scoreDisplay) {
-            scoreDisplay.setAttribute('text', {
-                value: 'Score: ' + score,
-                color: '#000'
-            });
-        }
-    }
+  // Calculate button position along the Z-axis in front of the ball
+const ballPosition = document.getElementById('player').getAttribute('position');
+const ballZ = parseFloat(ballPosition.z);
+const distanceInMeters = 1; // 1 unit (meter) in front of the ball
 
-    // Function to check if all cubes are crossed
-    function checkCubesCrossed() {
-        // Example condition: check if player has moved to a certain position
-        var playerPosition = player.getAttribute('position');
-        if (playerPosition.z < -100) { // Adjust position condition as needed
-            cubesCrossed++;
-            if (cubesCrossed >= totalCubes) {
-                console.log('All cubes crossed! Showing button...');
-                showButton();
-            }
-        }
-    }
+// Position the button container
+const buttonContainer = document.getElementById('endGameButtonContainer');
+buttonContainer.style.top = `calc(50vh + 5px)`; // Adjust as per your layout
 
-    // Function to show a button at the end of 100 cubes
-    function showButton() {
-        // Create a button entity
-        var button = document.createElement('a-entity');
-        button.setAttribute('geometry', {
-            primitive: 'plane',
-            width: 2,
-            height: 0.5
-        });
-        button.setAttribute('material', {
-            color: 'blue'
-        });
-        button.setAttribute('position', { x: 0, y: 1, z: -105 }); // Adjust position as needed
-        button.setAttribute('text', {
-            value: 'Show Fact',
-            align: 'center',
-            color: '#FFF'
-        });
-        button.addEventListener('click', function() {
-            showRandomFact();
-        });
-        scene.appendChild(button);
-    }
-
-    // Function to show a random fact
-    function showRandomFact() {
-        var facts = [
-            "The human brain is more active during sleep than during the day when awake.",
-            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.",
-            "A group of flamingos is called a 'flamboyance'.",
-            "The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes."
-            // Add more interesting facts here
-        ];
-        var randomIndex = Math.floor(Math.random() * facts.length);
-        var fact = facts[randomIndex];
-
-        // Display the fact in some way (e.g., console log for demonstration)
-        console.log('Random Fact:', fact);
-        // Replace with your actual display logic (e.g., show on screen, alert, etc.)
-        alert(fact);
-    }
-
-    // Update score and check cubes crossed every frame
-    scene.addEventListener('renderstart', function() {
-        checkCubesCrossed();
-        displayScore();
-    });
-
-    // Initial score display
-    displayScore();
-});
+// Calculate Z position for the button container
+const buttonZ = ballZ - distanceInMeters;
+buttonContainer.style.transform = `translateZ(${buttonZ}m)`;
